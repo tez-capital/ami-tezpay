@@ -81,6 +81,41 @@ return {
             action = '__tezpay/log.lua',
             contextFailExitCode = EXIT_APP_INTERNAL_ERROR
         },
+        tezpay = {
+            description = "tezpay direct passthrough",
+            summary = 'Passes any passed arguments directly to tezpay.',
+            index = 8,
+            type = 'external',
+            exec = 'bin/tezpay',
+            environment = {
+                HOME = os.cwd()
+            },
+            contextFailExitCode = EXIT_APP_INTERNAL_ERROR
+        },
+        pay = {
+            description = "tezpay 'pay' passthrough",
+            summary = 'Passes any passed arguments directly to tezpay pay.',
+            index = 9,
+            type = 'external',
+            exec = 'bin/tezpay',
+            environment = {
+                HOME = os.cwd()
+            },
+            injectArgs = { "pay" },
+            contextFailExitCode = EXIT_APP_INTERNAL_ERROR
+        },
+        ["generate-payouts"] = {
+            description = "tezpay 'generate-payouts' passthrough",
+            summary = 'Passes any passed arguments directly to tezpay.',
+            index = 10,
+            type = 'external',
+            exec = 'bin/tezpay',
+            environment = {
+                HOME = os.cwd()
+            },
+            injectArgs = { "generate-payouts" },
+            contextFailExitCode = EXIT_APP_INTERNAL_ERROR
+        },
         about = {
             description = "ami 'about' sub command",
             summary = 'Prints information about application',
@@ -100,14 +135,14 @@ return {
         },
         remove = {
             index = 7,
+            -- // TODO: remove just reports ??
             action = function(_options, _, _, _)
                 if _options.all then
                     am.execute_extension('__tezpay/remove-all.lua', {contextFailExitCode = EXIT_RM_ERROR})
-                    am.app.remove()
+                    am.app.remove(require"__tezpay/constants".protectedFiles)
                     log_success('Application removed.')
                 else
-                    am.app.remove_data()
-                    log_success('Application data removed.')
+                    log_warn"only whole tezpay ami instance can be remoced and requires --all parameter"
                 end
                 return
             end

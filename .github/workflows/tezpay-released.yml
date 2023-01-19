@@ -1,0 +1,60 @@
+name: tezpay-release-dispatch
+
+on:
+  repository_dispatch:
+    types: ["tezpay-release"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      commit-ref: ${{ steps.push_changes.outputs.commit_sha }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: setup eli
+        run: |
+          PLATFORM=$(uname -m)
+          TMP_NAME="./eli-unix-$PLATFORM"
+          set -- wget -q --show-progress -O "$TMP_NAME" 
+          LATEST=$(wget -qO- https://api.github.com/repos/alis-is/eli/releases/latest | grep tag_name | sed 's/  "tag_name": "//g' | sed 's/",//g')
+          echo "Downloading eli-unix-$PLATFORM $LATEST..."
+
+          if "$@" "https://github.com/alis-is/eli/releases/download/$LATEST/eli-unix-$PLATFORM" && mv "$TMP_NAME" ./eli && chmod +x ./eli; then
+            echo "eli $LATEST for $PLATFORM successfuly installed."
+          else
+            echo "eli installation failed!" 1>&2
+            exit 1
+          fi
+
+      - name: update version
+        id: update_version
+        env:
+          VERSION: ${{ github.event.client_payload.version }}
+        run: |
+          # git checkout -b "$SOURCE-new-release"
+          ./eli .github/update-tezpay-version.lua >> $GITHUB_OUTPUT
+
+      - name: Add & Commit
+        id: push_changes
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: '[ "src/__tezpay/constants.lua", "src/specs.json" ]'
+          push: true
+          message: updated-tezpay-version
+          author_name: TezpayReleaseDispatch
+          author_email: tezpay.release.dispatch@alis.is
+          branch: main
+
+      - name: publish
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ steps.update_version.outputs.VERSION }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  release:
+    needs: build
+    uses: ./.github/workflows/release.yml
+    with:
+      commit-ref: ${{needs.build.outputs.commit-ref}}

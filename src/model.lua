@@ -8,12 +8,12 @@ if not _ok then
 end
 
 local _downlaodUrl = nil
-local _downloadLinks = hjson.parse(fs.read_file("__xtz/sources.hjson"))
+local _sources = require"__tezpay/constants".sources
 
 if _platform.OS == "unix" then
-	_downlaodUrl = _downloadLinks["linux-x86_x64"]
+	_downlaodUrl = _sources["linux-x86_x64"]
 	if _platform.SYSTEM_TYPE:match("[Aa]arch64") then
-		_downlaodUrl = _downloadLinks["linux-arm64"]
+		_downlaodUrl = _sources["linux-arm64"]
 	end
 end
 
@@ -32,11 +32,17 @@ am.app.set_model(
 )
 
 local _services = require("__tezpay.services")
-local _wantedBinaries = { table.keys(_services.tezpayServiceNames) }
-
+local _wantedBinaries = table.keys(_services.tezpayServiceNames)
 am.app.set_model(
 	{
 		WANTED_BINARIES = _wantedBinaries,
+		SERVICE_CONFIGURATION = util.merge_tables(
+            {
+                TimeoutStopSec = 600,
+            },
+            type(am.app.get_configuration("SERVICE_CONFIGURATION")) == "table" and am.app.get_configuration("SERVICE_CONFIGURATION") or {},
+            true
+        )
 	},
 	{ merge = true, overwrite = true }
 )

@@ -1,7 +1,0 @@
-// SOURCE: https://github.com/tez-capital/tezpay/releases
-configurations: {
-    config: https://raw.githubusercontent.com/tez-capital/tezpay/main/docs/configuration/config.default.hjson
-	remote_signer: https://raw.githubusercontent.com/tez-capital/tezpay/main/docs/configuration/remote-signer.sample.hjson
-}
-linux-x86_x64: https://github.com/tez-capital/tezpay/releases/download/0.0.44-alpha/tezpay-linux-amd64
-linux-arm64: https://github.com/tez-capital/tezpay/releases/download/0.0.44-alpha/tezpay-linux-arm64

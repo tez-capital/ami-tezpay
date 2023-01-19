@@ -9,7 +9,7 @@ local _tezpayServices = {
 
 local _tezpayServiceNames = {}
 for k, _ in pairs(_tezpayServices) do
-	_tezpayServiceNames[k:sub((#(_appId .. "-tezpay-") + 1))] = k
+        _tezpayServiceNames[k:sub((#_appId + 2))] = k
 end
 
 local _allNames = util.clone(_tezpayServiceNames)

@@ -15,14 +15,15 @@ tezpay ami package
     "user": "<your username>"
 }
 ```
-
 4. Run `ami --path=<your app path> setup`
    * e.g. `ami --path=/bake-buddy/tezpay` (path is not required if it would be equal to your CWD)
-. Run `ami --path=<your app path> --help` to investigate available commands
-5. Start tezpay service with `ami --path=<your app path> start`
-6. Check info about the tezpay service `ami --path=<your app path> info`
+5. Create and configure your config.hjson. You can find examples in `samples/` folder or in [official tezpay repository](https://github.com/tez-capital/tezpay/tree/main/docs/configuration) 
+	- your `config.hjson` and other configuration files should be placed next to `app.hjson`
+6. Run `ami --path=<your app path> --help` to investigate available commands
+7. Start tezpay services with `ami --path=<your app path> start`
+8. Check info about the tezpay services `ami --path=<your app path> info`
 
-##### Configuration change: 
+##### Package configuration change: 
 1. `ami --path=<your app path> stop`
 2. change app.json or app.hjson as you like
 3. `ami --path=<your app path> setup`

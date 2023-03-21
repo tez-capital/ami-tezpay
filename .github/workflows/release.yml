@@ -29,20 +29,7 @@ jobs:
           ref: ${{ inputs.commit-ref }}
 
       - name: setup eli
-        run: |
-          echo ${{github.event_name}}
-          PLATFORM=$(uname -m)
-          TMP_NAME="./eli-unix-$PLATFORM"
-          set -- wget -q --show-progress -O "$TMP_NAME" 
-          LATEST=$(wget -qO- https://api.github.com/repos/alis-is/eli/releases/latest | grep tag_name | sed 's/  "tag_name": "//g' | sed 's/",//g')
-          echo "Downloading eli-unix-$PLATFORM $LATEST..."
-
-          if "$@" "https://github.com/alis-is/eli/releases/download/$LATEST/eli-unix-$PLATFORM" && mv "$TMP_NAME" ./eli && chmod +x ./eli; then
-            echo "eli $LATEST for $PLATFORM successfuly installed."
-          else
-            echo "eli installation failed!" 1>&2
-            exit 1
-          fi
+        uses: alis-is/setup-eli@v1
 
       - name: Generate ID
         id: repository_info

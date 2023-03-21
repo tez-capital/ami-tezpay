@@ -22,7 +22,7 @@ jobs:
           VERSION: ${{ github.event.client_payload.version }}
         run: |
           # git checkout -b "$SOURCE-new-release"
-          ./eli .github/update-tezpay-version.lua >> $GITHUB_OUTPUT
+          eli .github/update-tezpay-version.lua >> $GITHUB_OUTPUT
 
       - name: Add & Commit
         id: push_changes

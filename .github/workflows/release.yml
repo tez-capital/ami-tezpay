@@ -34,7 +34,7 @@ jobs:
       - name: Generate ID
         id: repository_info
         run: |
-          ./eli .github/get-variables.lua >> $GITHUB_OUTPUT
+          eli .github/get-variables.lua >> $GITHUB_OUTPUT
 
       - name: Generate SHA256 and PACKAGE_SOURCE
         working-directory: src

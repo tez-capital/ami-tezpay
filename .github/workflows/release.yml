@@ -26,7 +26,12 @@ jobs:
       - uses: actions/checkout@v3
         if: github.event_name == 'repository_dispatch'
         with:
-          ref: ${{ inputs.commit-ref }}
+          ref: main
+          fetch-depth: 5
+
+      - name: checkout ${{ inputs.commit-ref }}
+        run: git checkout ${{ inputs.commit-ref }}
+
 
       - name: setup eli
         uses: alis-is/setup-eli@v1

@@ -1,5 +1,5 @@
 {
-    "version": "0.0.43+0.1.22-alpha",
+    "version": "0.0.44+0.1.23-alpha",
     "dependencies": [
         {
             "id": "xtz.base"

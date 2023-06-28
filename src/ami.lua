@@ -146,6 +146,12 @@ return {
                 end
                 return
             end
+        },
+        version = {
+            description = "ami 'version' sub command",
+            summary = 'shows ami tezpay and tezpay versions',
+            action = '__tezpay/version.lua',
+            contextFailExitCode = EXIT_APP_ABOUT_ERROR
         }
     }
 }

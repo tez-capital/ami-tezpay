@@ -11,7 +11,7 @@ return {
         ["payout_wallet_private_key"] = "https://raw.githubusercontent.com/tez-capital/tezpay/main/docs/configuration/payout_wallet_private.sample.key"
     },
     sources = {
-        ["linux-x86_x64"] = "https://github.com/tez-capital/tezpay/releases/download/0.4.0-alpha/tezpay-linux-amd64",
-        ["linux-arm64"] = "https://github.com/tez-capital/tezpay/releases/download/0.4.0-alpha/tezpay-linux-arm64"
+        ["linux-x86_x64"] = "https://github.com/tez-capital/tezpay/releases/download/0.4.1-alpha/tezpay-linux-amd64",
+        ["linux-arm64"] = "https://github.com/tez-capital/tezpay/releases/download/0.4.1-alpha/tezpay-linux-arm64"
     }
 }

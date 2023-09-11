@@ -1,6 +1,6 @@
 {
     "id": "tzc.tezpay",
-    "version": "0.1.13+0.8.1-alpha",
+    "version": "0.1.14+0.8.2-alpha",
     "dependencies": [
         {
             "id": "xtz.base"

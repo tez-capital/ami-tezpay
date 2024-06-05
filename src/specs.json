@@ -4,6 +4,6 @@
             "id": "xtz.base"
         }
     ],
-    "version": "0.1.39+0.14.1-beta",
-    "id": "tzc.tezpay"
+    "id": "tzc.tezpay",
+    "version": "0.1.40+0.14.2-beta"
 }

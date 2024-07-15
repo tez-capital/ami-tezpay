@@ -12,7 +12,7 @@ tezpay ami package
 {
     "id": "tezpay",
     "type": "tzc.tezpay",
-    "user": "<your username>"
+    "user": "<user to run tezpay under>"
 }
 ```
 4. Run `ami --path=<your app path> setup`

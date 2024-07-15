@@ -3,6 +3,8 @@ local _json = am.options.OUTPUT_FORMAT == "json"
 
 local _ok, _systemctl = am.plugin.safe_get("systemctl")
 ami_assert(_ok, "Failed to load systemctl plugin", EXIT_PLUGIN_LOAD_ERROR)
+local _user = am.app.get("user", "root")
+_systemctl = _systemctl.with_options({ container = _user })
 
 local _info = {
 	level = "ok",

@@ -8,6 +8,16 @@ ami_assert(_ok, "Failed to get " .. _user .. "uid - " .. (_uid or ""))
 
 local _ok, _systemctl = am.plugin.safe_get("systemctl")
 ami_assert(_ok, "Failed to load systemctl plugin")
+_systemctl = _systemctl.with_options({ container = _user })
+
+--- enable linger if not root
+if _user ~= "root" then
+	local ok, result = proc.safe_exec("loginctl show-user ".. _user .. " --property=Linger=yes")
+	if not ok or result.exitcode ~= 0 or result.stdoutStream == "" then
+		local ok, _, exitcode = os.execute("loginctl enable-linger ".. _user)
+		assert(ok and exitcode == 0, "failed to enable linger for " .. _user .. " - " .. tostring(exitcode))
+	end
+end
 
 local _services = require "__tezpay.services"
 _services.remove_all_services() -- cleanup past install

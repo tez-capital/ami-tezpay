@@ -142,7 +142,7 @@ return {
                     am.app.remove(require"__tezpay/constants".protectedFiles)
                     log_success('Application removed.')
                 else
-                    log_warn"only whole tezpay ami instance can be remoced and requires --all parameter"
+                    log_warn"only whole tezpay ami instance can be removed and requires --all parameter"
                 end
                 return
             end

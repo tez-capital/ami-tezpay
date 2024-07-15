@@ -1,15 +1,12 @@
 [Unit]
 Description={{{ID}}} tezpay service
-After=network.target
+Wants=default.target
 StartLimitIntervalSec=0
 
 [Service]
-User={{{USER}}}
-Group={{{USER}}}
-RestartSec=20
-
 Type=simple
 Restart=always
+RestartSec=20
 
 Environment="HOME={{{ROOT_DIR}}}"
 # bellow files can be loaded from custom paths

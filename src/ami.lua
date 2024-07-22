@@ -5,6 +5,12 @@ return {
             description = "ami 'info' sub command",
             summary = 'Prints runtime info and status of the app',
             action = '__tezpay/info.lua',
+            options = {
+                ["services"] = {
+                    description = "Prints info about services",
+                    type = "boolean"
+                },
+            },
             contextFailExitCode = EXIT_APP_INFO_ERROR
         },
         setup = {

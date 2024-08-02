@@ -1,7 +1,7 @@
 local _appId = am.app.get("id")
 local _continualServiceId = _appId .. "-continual"
 
-local _possibleResidue = {
+local _possibleResidues = {
 	[_appId .. "-tezpay"] = am.app.get_model("TEZPAY_SERVICE_FILE", "__tezpay/assets/tezpay.service")
 }
 
@@ -10,11 +10,6 @@ local continualServices = {
 }
 
 local _tezpayServices = continualServices
-
-local _tezpayServiceNames = {}
-for k, _ in pairs(_tezpayServices) do
-        _tezpayServiceNames[k:sub((#_appId + 2))] = k
-end
 
 local function get_installed_services(checkOldContinuaResidueResidue)
 	local _ok, _systemctl = am.plugin.safe_get("systemctl")
@@ -25,7 +20,7 @@ local function get_installed_services(checkOldContinuaResidueResidue)
 
 	local installedServices = {}
 
-	for serviceId, sourceFile in pairs(_tezpayServiceNames) do
+	for serviceId, sourceFile in pairs(_tezpayServices) do
 		if _systemctl.is_service_installed(serviceId) then
 			installedServices[serviceId] = sourceFile
 		end
@@ -42,8 +37,8 @@ end
 
 -- includes potential residues
 local function _remove_all_services()
-	local _all = table.values(_tezpayServiceNames)
-	_all = util.merge_arrays(_all, _possibleResidue)
+	local _services = table.values(_tezpayServices)
+	_services = util.merge_tables(_services, _possibleResidues)
 
 	local _ok, _systemctl = am.plugin.safe_get("systemctl")
 	ami_assert(_ok, "Failed to load systemctl plugin")
@@ -51,7 +46,7 @@ local function _remove_all_services()
 	local _user = am.app.get("user", "root")
 	local _systemctlUser = _systemctl.with_options({ container = _user })
 
-	for _, service in ipairs(_all) do
+	for service  in pairs(_services) do
 		if type(service) ~= "string" then goto CONTINUE end
 
 		local _ok, _error = _systemctl.safe_remove_service(service) -- remove system wide

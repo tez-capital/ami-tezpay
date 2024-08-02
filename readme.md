@@ -23,6 +23,19 @@ tezpay ami package
 7. Start tezpay services with `ami --path=<your app path> start`
 8. Check info about the tezpay services `ami --path=<your app path> info`
 
+##### Continual mode
+
+To enable continual mode, you need to run:
+1. `ami --path=<your app path> continual --enable`
+2. `ami --path=<your app path> start`
+
+To check if continual mode is enabled, run:
+`ami --path=<your app path> continual --status`
+
+To disable continual mode, run:
+1. `ami --path=<your app path> continual --disable`
+Note: *Disabling continual mode will stop services related to continual mode.*
+
 ##### Package configuration change: 
 1. `ami --path=<your app path> stop`
 2. change app.json or app.hjson as you like

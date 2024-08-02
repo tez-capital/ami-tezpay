@@ -18,7 +18,7 @@ _systemctl = _systemctl.with_options({ container = _user })
 
 if enable then
 	local allInstalled = table.reduce(continualServices,
-		function(acc, v) return acc and _systemctl.is_service_installed(v) end, true)
+		function(acc, _, k) return acc and _systemctl.is_service_installed(k) end, true)
 
 	if allInstalled then
 		for serviceId, serviceFile in pairs(continualServices) do
@@ -32,7 +32,7 @@ end
 
 if disable then
 	local anyInstalled = table.reduce(continualServices,
-		function(acc, v) return acc or _systemctl.is_service_installed(v) end, false)
+		function(acc, _, k) return acc or _systemctl.is_service_installed(k) end, false)
 
 	if anyInstalled then
 		for serviceId, _ in pairs(continualServices) do
@@ -46,7 +46,7 @@ end
 
 if status then
 	local allInstalled = table.reduce(continualServices,
-		function(acc, v) return acc and _systemctl.is_service_installed(v) end, true)
+		function(acc, _, k) return acc and _systemctl.is_service_installed(k) end, true)
 	if allInstalled then
 		print("enabled")
 	else

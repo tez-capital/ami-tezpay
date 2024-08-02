@@ -36,8 +36,6 @@ if disable then
 
 	if anyInstalled then
 		for serviceId, _ in pairs(continualServices) do
-			local _ok, _error = _systemctl.safe_stop_service(serviceId)
-			ami_assert(_ok, "Failed to stop " .. serviceId .. ".service " .. (_error or ""))
 			local _ok, _error = _systemctl.safe_remove_service(serviceId)
 			ami_assert(_ok, "Failed to remove " .. serviceId .. ".service " .. (_error or ""))
 		end

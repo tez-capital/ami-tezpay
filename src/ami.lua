@@ -68,6 +68,25 @@ return {
                 log_success('tezpay app configuration validated.')
             end
         },
+        continual = {
+            description = "ami 'continual' sub command",
+            summary = 'Controls tezpay continual service',
+            options = {
+                ["enable"] = {
+                    description = "Enables the continual service.",
+                    type = "boolean"
+                },
+                ["disable"] = {
+                    description = "Disables the continual service.",
+                    type = "boolean"
+                },
+                ["status"] = {
+                    description = "Prints the status of the continual service.",
+                    type = "boolean"
+                }
+            },
+            action = '__tezpay/continual.lua',
+        },
         log = {
             description = "ami 'log' sub command",
             summary = 'Prints logs from services.',

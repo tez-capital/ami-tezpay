@@ -3,20 +3,20 @@ local _options, _, args, _ = ...
 local _args = table.map(args, function(v) return v.arg end)
 local _services = require("__tezpay.services")
 
-local _toCheck = table.values(_services.allNames)
+local installedServices = _services.get_installed_services()
+local toCheck = table.keys(installedServices)
 if #_args > 0 then
-    _toCheck = {}
+    toCheck = {}
     for _, v in ipairs(_args) do
-        if type(_services.tezpayServiceNames[v]) == "string" then
-            table.insert(_toCheck, _services.tezpayServiceNames[v])
-        end
+        ami_assert(installedServices[v], "service '" .. v .. "' not installed or found", EXIT_APP_INTERNAL_ERROR)
+        table.insert(toCheck, v)
     end
 end
 
 local _journalctlArgs = { "journalctl" }
 if _options.follow then table.insert(_journalctlArgs, "-f") end
 if _options['end'] then table.insert(_journalctlArgs, "-e") end
-for _, v in ipairs(_toCheck) do
+for _, v in ipairs(toCheck) do
     table.insert(_journalctlArgs, "-u")
     table.insert(_journalctlArgs, v)
 end

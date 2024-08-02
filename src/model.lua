@@ -31,11 +31,9 @@ am.app.set_model(
 	{ merge = true, overwrite = true }
 )
 
-local _services = require("__tezpay.services")
-local _wantedBinaries = table.keys(_services.tezpayServiceNames)
 am.app.set_model(
 	{
-		WANTED_BINARIES = _wantedBinaries,
+		WANTED_BINARIES = { "tezpay" },
 		SERVICE_CONFIGURATION = util.merge_tables(
             {
                 TimeoutStopSec = 600,

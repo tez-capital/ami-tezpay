@@ -5,7 +5,7 @@ _systemctl = _systemctl.with_options({ container = _user })
 
 local _services = require"__tezpay.services"
 
-for _, service in pairs(_services.allNames) do
+for service in pairs(_services.get_installed_services()) do
 	-- skip false values
 	if type(service) ~= "string" then goto CONTINUE end
 	local _ok, _error = _systemctl.safe_start_service(service)

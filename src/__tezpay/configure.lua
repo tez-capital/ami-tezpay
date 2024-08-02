@@ -21,9 +21,10 @@ if _user ~= "root" then
 end
 
 local _services = require "__tezpay.services"
+local servicesToInstall = _services.get_installed_services(true)
 _services.remove_all_services() -- cleanup past install
 
-for serviceId, serviceFile in pairs(_services.tezpayServices) do
+for serviceId, serviceFile in pairs(servicesToInstall) do
 	local _ok, _error = _systemctl.safe_install_service(serviceFile, serviceId)
 	ami_assert(_ok, "Failed to install " .. serviceId .. ".service " .. (_error or ""))
 end

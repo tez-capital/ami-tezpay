@@ -16,10 +16,9 @@ local _info = {
 
 
 local _services = require "__tezpay.services"
-for k, v in pairs(_services.allNames) do
-	if type(v) ~= "string" then goto CONTINUE end
-	local _ok, _status, _started = _systemctl.safe_get_service_status(v)
-	ami_assert(_ok, "Failed to get status of " .. v .. ".service " .. (_status or ""), EXIT_PLUGIN_EXEC_ERROR)
+for k in pairs(_services.get_installed_services()) do
+	local _ok, _status, _started = _systemctl.safe_get_service_status(k)
+	ami_assert(_ok, "Failed to get status of " .. k .. ".service " .. (_status or ""), EXIT_PLUGIN_EXEC_ERROR)
 	_info.services[k] = {
 		status = _status,
 		started = _started
@@ -28,7 +27,6 @@ for k, v in pairs(_services.allNames) do
 		_info.status = "One or more tezpay services is not running!"
 		_info.level = "error"
 	end
-	::CONTINUE::
 end
 
 if _json then

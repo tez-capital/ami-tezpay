@@ -14,12 +14,18 @@ local _info = {
 	services = {}
 }
 
+local _appId = am.app.get("id")
+-- strip id prefix
+local function strip_app_id(id)
+	return id:match("^" .. _appId .. "%-(.+)$")
+end
 
 local _services = require "__tezpay.services"
 for k in pairs(_services.get_installed_services()) do
 	local _ok, _status, _started = _systemctl.safe_get_service_status(k)
 	ami_assert(_ok, "Failed to get status of " .. k .. ".service " .. (_status or ""), EXIT_PLUGIN_EXEC_ERROR)
-	_info.services[k] = {
+
+	_info.services[strip_app_id(k)] = {
 		status = _status,
 		started = _started
 	}

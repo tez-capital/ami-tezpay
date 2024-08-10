@@ -20,7 +20,7 @@ if enable then
 	local allInstalled = table.reduce(continualServices,
 		function(acc, _, k) return acc and _systemctl.is_service_installed(k) end, true)
 
-	if allInstalled then
+	if not allInstalled then
 		for serviceId, serviceFile in pairs(continualServices) do
 			local _ok, _error = _systemctl.safe_install_service(serviceFile, serviceId)
 			ami_assert(_ok, "Failed to install " .. serviceId .. ".service " .. (_error or ""))

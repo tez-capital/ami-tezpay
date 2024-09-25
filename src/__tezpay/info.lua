@@ -17,7 +17,7 @@ local _info = {
 local _appId = am.app.get("id")
 -- strip id prefix
 local function strip_app_id(id)
-	return id:match("^" .. _appId .. "%-(.+)$")
+	return id:match("^" .. util.escape_magic_characters(_appId) .. "%-(.+)$")
 end
 
 local _services = require "__tezpay.services"

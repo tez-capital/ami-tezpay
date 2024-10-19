@@ -20,8 +20,9 @@ tezpay ami package
 5. Create and configure your config.hjson. You can find examples in `samples/` folder or in [official tezpay repository](https://github.com/tez-capital/tezpay/tree/main/docs/configuration) 
 	- your `config.hjson` and other configuration files should be placed next to `app.hjson`
 6. Run `ami --path=<your app path> --help` to investigate available commands
-7. Start tezpay services with `ami --path=<your app path> start`
-8. Check info about the tezpay services `ami --path=<your app path> info`
+7. To enable `continual` payouts run: `ami continual --enable`
+8. Start tezpay services with `ami --path=<your app path> start`
+9. Check info about the tezpay services `ami --path=<your app path> info`
 
 ##### Continual mode
 

@@ -27,7 +27,7 @@ if enable then
 		end
 	end
 
-	log_info("Continual service enabled. To start the service, run `am start`")
+	log_info("Continual service enabled. To start the service, run `ami start`")
 end
 
 if disable then

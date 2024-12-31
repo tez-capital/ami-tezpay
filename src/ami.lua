@@ -102,7 +102,7 @@ return {
                     type = "boolean"
                 }
             },
-            type = "no-command",
+            type = "namespace",
             action = '__tezpay/log.lua',
             context_fail_exit_code = EXIT_APP_INTERNAL_ERROR
         },

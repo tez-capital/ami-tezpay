@@ -8,13 +8,13 @@ local constants = fs.read_file("./src/__tezpay/constants.lua")
 constants = constants:gsub("tezpay/releases/download/%d-%.%d-%.%d-[^/]*", "tezpay/releases/download/" .. version)
 fs.write_file("./src/__tezpay/constants.lua", constants)
 
-local specsContent = fs.read_file("./src/specs.json")
-local specs = hjson.parse(specsContent)
-local packageVersion = string.split(specs.version, "+", true)[1]
-local packageVersionPatch = tonumber(string.split(packageVersion, ".", true)[3])
-packageVersionPatch = packageVersionPatch + 1
-packageVersion = string.split(packageVersion, ".", true)[1] .. "." .. string.split(packageVersion, ".", true)[2] .. "." .. packageVersionPatch
-specs.version = packageVersion .. "+" .. version
+local specs_raw = fs.read_file("./src/specs.json")
+local specs = hjson.parse(specs_raw)
+local pacakge_version = string.split(specs.version, "+", true)[1]
+local package_version_patch = tonumber(string.split(pacakge_version, ".", true)[3])
+package_version_patch = package_version_patch + 1
+pacakge_version = string.split(pacakge_version, ".", true)[1] .. "." .. string.split(pacakge_version, ".", true)[2] .. "." .. package_version_patch
+specs.version = pacakge_version .. "+" .. version
 
 fs.write_file("./src/specs.json", hjson.stringify_to_json(specs, { indent = "    " }))
 

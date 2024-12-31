@@ -1,5 +1,5 @@
 return {
-    protectedFiles = {
+    protected_files = {
         "config.hjson",
         "remote_signer.hjson",
         "payout_wallet_private.key",

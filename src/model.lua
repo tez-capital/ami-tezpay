@@ -1,23 +1,23 @@
-local _platform
-local _ok, _platformPlugin = am.plugin.safe_get("platform")
-if _ok then _ok, _platform = _platformPlugin.get_platform() end
+local platform
+local ok, platform_plugin = am.plugin.safe_get("platform")
+if ok then ok, platform = platform_plugin.get_platform() end
 
-if not _ok then
+if not ok then
 	log_error("Cannot determine platform!")
 	return
 end
 
-local _downlaodUrl = nil
-local _sources = require"__tezpay/constants".sources
+local download_url = nil
+local sources = require"__tezpay/constants".sources
 
-if _platform.OS == "unix" then
-	_downlaodUrl = _sources["linux-x86_x64"]
-	if _platform.SYSTEM_TYPE:match("[Aa]arch64") then
-		_downlaodUrl = _sources["linux-arm64"]
+if platform.OS == "unix" then
+	download_url = sources["linux-x86_x64"]
+	if platform.SYSTEM_TYPE:match("[Aa]arch64") then
+		download_url = sources["linux-arm64"]
 	end
 end
 
-if _downlaodUrl == nil then
+if download_url == nil then
 	log_error("Platform not supported!")
 	return
 end
@@ -25,7 +25,7 @@ end
 am.app.set_model(
 	{
 		DOWNLOAD_URLS = {
-			tezpay = am.app.get_configuration("SOURCE", _downlaodUrl),
+			tezpay = am.app.get_configuration("SOURCE", download_url),
 		}
 	},
 	{ merge = true, overwrite = true }

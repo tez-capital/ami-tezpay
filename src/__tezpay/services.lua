@@ -1,70 +1,70 @@
-local _appId = am.app.get("id")
-local _continualServiceId = _appId .. "-continual"
+local app_id = am.app.get("id")
+local continual_service_id = app_id .. "-continual"
 
-local _possibleResidues = {
-	[_appId .. "-tezpay"] = am.app.get_model("TEZPAY_SERVICE_FILE", "__tezpay/assets/tezpay.service")
+local possible_residues = {
+	[app_id .. "-tezpay"] = am.app.get_model("TEZPAY_SERVICE_FILE", "__tezpay/assets/tezpay.service")
 }
 
-local continualServices = {
-	[_continualServiceId] = am.app.get_model("TEZPAY_SERVICE_FILE", "__tezpay/assets/continual.service")
+local continual_services = {
+	[continual_service_id] = am.app.get_model("TEZPAY_SERVICE_FILE", "__tezpay/assets/continual.service")
 }
 
-local _tezpayServices = continualServices
+local tezpay_services = continual_services
 
-local function get_installed_services(checkOldContinuaResidueResidue)
-	local _ok, _systemctl = am.plugin.safe_get("systemctl")
-	ami_assert(_ok, "Failed to load systemctl plugin")
+local function get_installed_services(check_old_continual_residues)
+	local ok, systemctl = am.plugin.safe_get("systemctl")
+	ami_assert(ok, "Failed to load systemctl plugin")
 
-	local _user = am.app.get("user", "root")
-	_systemctl = _systemctl.with_options({ container = _user })
+	local user = am.app.get("user", "root")
+	systemctl = systemctl.with_options({ container = user })
 
-	local installedServices = {}
+	local installed_services = {}
 
-	for serviceId, sourceFile in pairs(_tezpayServices) do
-		if _systemctl.is_service_installed(serviceId) then
-			installedServices[serviceId] = sourceFile
+	for service_id, source_file in pairs(tezpay_services) do
+		if systemctl.is_service_installed(service_id) then
+			installed_services[service_id] = source_file
 		end
 	end
 
 	-- // TODO: remove this after a few releases
-	if checkOldContinuaResidueResidue and _systemctl.is_service_installed(_appId .. "-tezpay") and not installedServices[_continualServiceId] then
-		installedServices[_continualServiceId] = _tezpayServices[_continualServiceId]
+	if check_old_continual_residues and systemctl.is_service_installed(app_id .. "-tezpay") and not installed_services[continual_service_id] then
+		installed_services[continual_service_id] = tezpay_services[continual_service_id]
 	end
 	-- end TODO
 
-	return installedServices
+	return installed_services
 end
 
 -- includes potential residues
-local function _remove_all_services()
-	local _services = table.values(_tezpayServices)
-	_services = util.merge_tables(_services, _possibleResidues)
+local function remove_all_services()
+	local services = table.values(tezpay_services)
+	services = util.merge_tables(services, possible_residues)
 
-	local _ok, _systemctl = am.plugin.safe_get("systemctl")
-	ami_assert(_ok, "Failed to load systemctl plugin")
+	local ok, systemctl = am.plugin.safe_get("systemctl")
+	ami_assert(ok, "Failed to load systemctl plugin")
 
-	local _user = am.app.get("user", "root")
-	local _systemctlUser = _systemctl.with_options({ container = _user })
+	local user = am.app.get("user", "root")
+	local systemctl_user = systemctl.with_options({ container = user })
 
-	for service  in pairs(_services) do
+	for service  in pairs(services) do
 		if type(service) ~= "string" then goto CONTINUE end
 
-		local _ok, _error = _systemctl.safe_remove_service(service) -- remove system wide
-		if not _ok then
-			ami_error("Failed to remove " .. service .. ".service " .. (_error or ""))
+		local ok, err = systemctl.safe_remove_service(service) -- remove system wide
+		if not ok then
+			ami_error("Failed to remove " .. service .. ".service " .. (err or ""))
 		end
 
-		local _ok, _error = _systemctlUser.safe_remove_service(service)
-		if not _ok then
-			ami_error("Failed to remove " .. service .. ".service " .. (_error or ""))
+		local ok, err = systemctl_user.safe_remove_service(service)
+		if not ok then
+			ami_error("Failed to remove " .. service .. ".service " .. (err or ""))
 		end
 		::CONTINUE::
 	end
 end
 
 return {
-	continualServices = continualServices,
-	remove_all_services = _remove_all_services,
+	continual_services = continual_services,
+	remove_all_services = remove_all_services,
 	get_installed_services = get_installed_services
 }
 

@@ -1,54 +1,55 @@
-local _user = am.app.get("user", "root")
-ami_assert(type(_user) == "string", "User not specified...", EXIT_INVALID_CONFIGURATION)
+local user = am.app.get("user", "root")
+ami_assert(type(user) == "string", "User not specified...", EXIT_INVALID_CONFIGURATION)
 
-local _ok, _error = fs.safe_mkdirp("reports")
-ami_assert(_ok, "Failed to create reports directory - " .. tostring(_error) .. "!")
-local _ok, _uid = fs.safe_getuid(_user)
-ami_assert(_ok, "Failed to get " .. _user .. "uid - " .. (_uid or ""))
+local ok, err = fs.safe_mkdirp("reports")
+ami_assert(ok, "Failed to create reports directory - " .. tostring(err) .. "!")
+local ok, uid = fs.safe_getuid(user)
+ami_assert(ok, "Failed to get " .. user .. "uid - " .. (uid or ""))
 
-local _ok, _systemctl = am.plugin.safe_get("systemctl")
-ami_assert(_ok, "Failed to load systemctl plugin")
-_systemctl = _systemctl.with_options({ container = _user })
+local ok, systemctl = am.plugin.safe_get("systemctl")
+ami_assert(ok, "Failed to load systemctl plugin")
+systemctl = systemctl.with_options({ container = user })
 
 --- enable linger if not root
-if _user ~= "root" then
-	local ok, result = proc.safe_exec("loginctl show-user ".. _user .. " --property=Linger=yes", { stdout = "pipe" })
-	local stdout = result.stdoutStream:read("a") or ""
-	if not ok or result.exitcode ~= 0 or stdout == ""  then
-		log_info("Enabling linger for " .. _user .. "...")
-		local ok, _, exitcode = os.execute("loginctl enable-linger ".. _user)
-		assert(ok and exitcode == 0, "failed to enable linger for " .. _user .. " - " .. tostring(exitcode))
+if user ~= "root" then
+	local ok, result = proc.safe_exec("loginctl show-user ".. user .. " --property=Linger=yes", { stdout = "pipe" })
+	local stdout = result.stdout_stream:read("a") or ""
+	if not ok or result.exit_code ~= 0 or stdout == ""  then
+		log_info("Enabling linger for " .. user .. "...")
+		local ok, _, exit_code = os.execute("loginctl enable-linger ".. user)
+		assert(ok and exit_code == 0, "failed to enable linger for " .. user .. " - " .. tostring(exit_code))
 	end
 end
 
-local _services = require "__tezpay.services"
-local servicesToInstall = _services.get_installed_services(true)
-_services.remove_all_services() -- cleanup past install
+local services = require "__tezpay.services"
+local services_to_install = services.get_installed_services(true)
+services.remove_all_services() -- cleanup past install
 
-for serviceId, serviceFile in pairs(servicesToInstall) do
-	local _ok, _error = _systemctl.safe_install_service(serviceFile, serviceId)
-	ami_assert(_ok, "Failed to install " .. serviceId .. ".service " .. (_error or ""))
+for service_id, service_file in pairs(services_to_install) do
+	local ok, err = systemctl.safe_install_service(service_file, service_id)
+	ami_assert(ok, "Failed to install " .. service_id .. ".service " .. (err or ""))
 end
 
-local _ok, _error = fs.safe_mkdirp("samples")
-ami_assert(_ok, "Failed to create samples directory - " .. tostring(_error) .. "!")
+local ok, err = fs.safe_mkdirp("samples")
+ami_assert(ok, "Failed to create samples directory - " .. tostring(err) .. "!")
 
-local _configurations = require"__tezpay.constants".configurations
+local constants = require"__tezpay/constants"
+local configurations = constants.configurations
 -- download sample config
-local _ok, _error = net.safe_download_file(_configurations.config, "samples/config.hjson",
-	{ followRedirects = true })
-if not _ok then log_warn("Failed to download sample config.hjson - " .. (_error or "")) end
+local ok, err = net.safe_download_file(configurations.config, "samples/config.hjson",
+	{ follow_redirects = true })
+if not ok then log_warn("Failed to download sample config.hjson - " .. (err or "")) end
 
 -- download sample remote_signer config
-local _ok, _error = net.safe_download_file(_configurations.remote_signer, "samples/remote_signer.hjson",
-	{ followRedirects = true })
-if not _ok then log_warn("Failed to download sample remote_signer.hjson - " .. (_error or "")) end
+local ok, err = net.safe_download_file(configurations.remote_signer, "samples/remote_signer.hjson",
+	{ follow_redirects = true })
+if not ok then log_warn("Failed to download sample remote_signer.hjson - " .. (err or "")) end
 
 -- download sample payout_wallet_private.key
-local _ok, _error = net.safe_download_file(_configurations.payout_wallet_private_key, "samples/payout_wallet_private.key",
-        { followRedirects = true })
-if not _ok then log_warn("Failed to download sample payout_wallet_private.key - " .. (_error or "")) end
+local ok, err = net.safe_download_file(configurations.payout_wallet_private_key, "samples/payout_wallet_private.key",
+        { follow_redirects = true })
+if not ok then log_warn("Failed to download sample payout_wallet_private.key - " .. (err or "")) end
 
-log_info("Granting access to " .. _user .. "(" .. tostring(_uid) .. ")...")
-local _ok, _error = fs.chown(os.cwd(), _uid, _uid, { recurse = true })
-ami_assert(_ok, "Failed to chown reports - " .. (_error or ""))
+log_info("Granting access to " .. user .. "(" .. tostring(uid) .. ")...")
+local ok, err = fs.chown(os.cwd() or ".", uid, uid, { recurse = true })
+ami_assert(ok, "Failed to chown reports - " .. (err or ""))

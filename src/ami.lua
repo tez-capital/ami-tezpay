@@ -11,7 +11,7 @@ return {
                     type = "boolean"
                 },
             },
-            contextFailExitCode = EXIT_APP_INFO_ERROR
+            context_fail_exit_code = EXIT_APP_INFO_ERROR
         },
         setup = {
             options = {
@@ -30,7 +30,7 @@ return {
                 end
 
                 if no_options or options.app then
-                    am.execute_extension('__xtz/download-binaries.lua', {contextFailExitCode = EXIT_SETUP_ERROR})
+                    am.execute_extension('__xtz/download-binaries.lua', {context_fail_exit_code = EXIT_SETUP_ERROR})
                 end
 
                 if no_options and not options['no-validate'] then
@@ -38,9 +38,9 @@ return {
                 end
 
                 if no_options or options.configure then
-					am.execute_extension('__xtz/create_user.lua', {contextFailExitCode = EXIT_APP_CONFIGURE_ERROR})
+					am.execute_extension('__xtz/create_user.lua', {context_fail_exit_code = EXIT_APP_CONFIGURE_ERROR})
                     am.app.render()
-                    am.execute_extension('__tezpay/configure.lua', {contextFailExitCode = EXIT_APP_CONFIGURE_ERROR})
+                    am.execute_extension('__tezpay/configure.lua', {context_fail_exit_code = EXIT_APP_CONFIGURE_ERROR})
                 end
                 log_success('tezpay setup complete.')
             end
@@ -49,13 +49,13 @@ return {
             description = "ami 'start' sub command",
             summary = 'Starts the tezpay services',
             action = '__tezpay/start.lua',
-            contextFailExitCode = EXIT_APP_START_ERROR
+            context_fail_exit_code = EXIT_APP_START_ERROR
         },
         stop = {
             description = "ami 'stop' sub command",
             summary = 'Stops the tezpay services',
             action = '__tezpay/stop.lua',
-            contextFailExitCode = EXIT_APP_STOP_ERROR
+            context_fail_exit_code = EXIT_APP_STOP_ERROR
         },
         validate = {
             description = "ami 'validate' sub command",
@@ -104,7 +104,7 @@ return {
             },
             type = "no-command",
             action = '__tezpay/log.lua',
-            contextFailExitCode = EXIT_APP_INTERNAL_ERROR
+            context_fail_exit_code = EXIT_APP_INTERNAL_ERROR
         },
         tezpay = {
             description = "tezpay direct passthrough",
@@ -115,7 +115,7 @@ return {
             environment = {
                 HOME = os.cwd()
             },
-            contextFailExitCode = EXIT_APP_INTERNAL_ERROR
+            context_fail_exit_code = EXIT_APP_INTERNAL_ERROR
         },
         pay = {
             description = "tezpay 'pay' passthrough",
@@ -126,8 +126,8 @@ return {
             environment = {
                 HOME = os.cwd()
             },
-            injectArgs = { "pay" },
-            contextFailExitCode = EXIT_APP_INTERNAL_ERROR
+            inject_args = { "pay" },
+            context_fail_exit_code = EXIT_APP_INTERNAL_ERROR
         },
         ["generate-payouts"] = {
             description = "tezpay 'generate-payouts' passthrough",
@@ -138,8 +138,8 @@ return {
             environment = {
                 HOME = os.cwd()
             },
-            injectArgs = { "generate-payouts" },
-            contextFailExitCode = EXIT_APP_INTERNAL_ERROR
+            inject_args = { "generate-payouts" },
+            context_fail_exit_code = EXIT_APP_INTERNAL_ERROR
         },
         about = {
             description = "ami 'about' sub command",
@@ -163,7 +163,7 @@ return {
             -- // TODO: remove just reports ??
             action = function(options, _, _, _)
                 if options.all then
-                    am.execute_extension('__tezpay/remove-all.lua', {contextFailExitCode = EXIT_RM_ERROR})
+                    am.execute_extension('__tezpay/remove-all.lua', {context_fail_exit_code = EXIT_RM_ERROR})
                     local constants = require"__tezpay/constants"
                     am.app.remove(constants.protected_files)
                     log_success('Application removed.')
@@ -177,7 +177,7 @@ return {
             description = "ami 'version' sub command",
             summary = 'shows ami tezpay and tezpay versions',
             action = '__tezpay/version.lua',
-            contextFailExitCode = EXIT_APP_ABOUT_ERROR
+            context_fail_exit_code = EXIT_APP_ABOUT_ERROR
         }
     }
 }

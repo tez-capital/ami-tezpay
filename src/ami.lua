@@ -158,6 +158,17 @@ return {
                 end
             end
         },
+        version = {
+            description = "ami 'version' sub command",
+            summary = "Prints versions of binaries used by the app",
+            action = "__xtz/version.lua",
+            options = {
+                all = {
+                    description = "Prent version and all related versions - dependencies, binaries...",
+                    type = "boolean"
+                }
+            }
+        },
         remove = {
             index = 7,
             -- // TODO: remove just reports ??
@@ -172,12 +183,6 @@ return {
                 end
                 return
             end
-        },
-        version = {
-            description = "ami 'version' sub command",
-            summary = 'shows ami tezpay and tezpay versions',
-            action = '__tezpay/version.lua',
-            context_fail_exit_code = EXIT_APP_ABOUT_ERROR
         }
     }
 }

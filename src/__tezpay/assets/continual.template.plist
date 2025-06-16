@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
     <key>Label</key>
-    <string>{{{ID}}}-tezpay</string>
+    <string>{{{ID}}}-continual</string>
 
     <key>UserName</key>
     <string>{{{USER}}}</string>
@@ -35,9 +35,9 @@
     <integer>1</integer>
 
     <key>StandardOutPath</key>
-    <string>/usr/local/var/log/{{{ID}}}-tezpay.log</string>
+    <string>/usr/local/var/log/{{{ID}}}-continual.log</string>
     <key>StandardErrorPath</key>
-    <string>/usr/local/var/log/{{{ID}}}-tezpay.log</string>
+    <string>/usr/local/var/log/{{{ID}}}-continual.log</string>
 
     {{#configuration.SERVICE_CONFIGURATION__ARRAY}}
     <key>{{{key}}}</key>

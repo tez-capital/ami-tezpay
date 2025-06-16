@@ -1,9 +1,9 @@
 local options, _, args, _ = ...
 
 local args_values = table.map(args, function(v) return v.arg end)
-local services = require("__xtz.services")
+local services = require("__tezpay.services")
 
-local to_check = table.values(services.get_active_services())
+local to_check = table.values(services.get_active_names())
 if #args_values > 0 then
     to_check = {}
     for _, v in ipairs(args_values) do

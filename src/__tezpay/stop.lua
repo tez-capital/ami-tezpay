@@ -1,5 +1,5 @@
 local service_manager = require"__xtz.service-manager"
-local services = require"__xtz.services"
+local services = require"__tezpay.services"
 
 log_info("stopping tezpay services... this may take few minutes.")
 

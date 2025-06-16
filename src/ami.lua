@@ -82,7 +82,6 @@ return {
                     description = "Prints the status of the continual service.",
                 }
             },
-            type = "namespace",
             action = '__tezpay/continual.lua',
         },
         log = {

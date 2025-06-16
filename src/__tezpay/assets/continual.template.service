@@ -1,5 +1,5 @@
 [Unit]
-Description={{{ID}}} tezpay service
+Description={{{ID}}}-continual
 Wants=default.target
 StartLimitIntervalSec=0
 

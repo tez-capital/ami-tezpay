@@ -10,7 +10,7 @@ local info = {
 
 local service_manager = require "__xtz.service-manager"
 local services = require "__tezpay.services"
-local statuses, all_running = service_manager.get_services_status(services.get_active())
+local statuses, all_running = service_manager.get_services_status(services.get_active_names())
 info.services = statuses
 if not all_running then
 	info.status = "one or more tezpay services is not running"

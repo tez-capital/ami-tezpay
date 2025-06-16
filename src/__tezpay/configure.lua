@@ -7,22 +7,23 @@ local uid, err = fs.getuid(user)
 ami_assert(uid, "failed to get " .. user .. "uid - error: " .. tostring(err))
 
 --- enable linger if not root
-if user ~= "root" then
-	local result, err = proc.exec("loginctl show-user ".. user .. " --property=Linger=yes", { stdout = "pipe" })
-	ami_assert(result, "failed to set linger for " .. user .. " - error: " .. tostring(err))
-	local stdout = result.stdout_stream:read("a") or ""
-	if not ok or result.exit_code ~= 0 or stdout == ""  then
-		log_info("enabling linger for " .. user .. "...")
-		local ok, _, exit_code = os.execute("loginctl enable-linger ".. user)
-		assert(ok and exit_code == 0, "failed to enable linger for " .. user .. " - " .. tostring(exit_code))
-	end
-end
+--- for now we run tezpay continual under root systemd
+-- if user ~= "root" then
+-- 	local result, err = proc.exec("loginctl show-user ".. user .. " --property=Linger=yes", { stdout = "pipe" })
+-- 	ami_assert(result, "failed to set linger for " .. user .. " - error: " .. tostring(err))
+-- 	local stdout = result.stdout_stream:read("a") or ""
+-- 	if not ok or result.exit_code ~= 0 or stdout == ""  then
+-- 		log_info("enabling linger for " .. user .. "...")
+-- 		local ok, _, exit_code = os.execute("loginctl enable-linger ".. user)
+-- 		assert(ok and exit_code == 0, "failed to enable linger for " .. user .. " - " .. tostring(exit_code))
+-- 	end
+-- end
 
 local service_manager = require"__xtz.service-manager"
 local services = require "__tezpay.services"
 
 service_manager.remove_services(services.cleanup_names) -- cleanup past install
-service_manager.install_services(services.get_active_services())
+service_manager.install_services(services.get_active())
 
 log_success(am.app.get("id") .. " services configured")
 

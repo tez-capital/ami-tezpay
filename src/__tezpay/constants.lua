@@ -12,6 +12,7 @@ return {
     },
     sources = {
         ["linux-x86_x64"] = "https://github.com/tez-capital/tezpay/releases/download/0.21.5/tezpay-linux-amd64",
-        ["linux-arm64"] = "https://github.com/tez-capital/tezpay/releases/download/0.21.5/tezpay-linux-arm64"
+        ["linux-arm64"] = "https://github.com/tez-capital/tezpay/releases/download/0.21.5/tezpay-linux-arm64",
+        ["macos-arm64"] = "https://github.com/tez-capital/tezpay/releases/download/0.21.5/tezpay-macos-arm64"
     }
 }

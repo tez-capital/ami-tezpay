@@ -26,21 +26,21 @@ return {
                 end
 
                 if no_options or not options['no-validate'] then
-                    am.execute('validate', {'--platform'})
+                    am.execute('validate', { '--platform' })
                 end
 
                 if no_options or options.app then
-                    am.execute_extension('__xtz/download-binaries.lua', {context_fail_exit_code = EXIT_SETUP_ERROR})
+                    am.execute_extension('__xtz/download-binaries.lua', { context_fail_exit_code = EXIT_SETUP_ERROR })
                 end
 
                 if no_options and not options['no-validate'] then
-                    am.execute('validate', {'--configuration'})
+                    am.execute('validate', { '--configuration' })
                 end
 
                 if no_options or options.configure then
-					am.execute_extension('__xtz/create_user.lua', {context_fail_exit_code = EXIT_APP_CONFIGURE_ERROR})
+                    am.execute_extension('__xtz/create_user.lua', { context_fail_exit_code = EXIT_APP_CONFIGURE_ERROR })
                     am.app.render()
-                    am.execute_extension('__tezpay/configure.lua', {context_fail_exit_code = EXIT_APP_CONFIGURE_ERROR})
+                    am.execute_extension('__tezpay/configure.lua', { context_fail_exit_code = EXIT_APP_CONFIGURE_ERROR })
                 end
                 log_success('tezpay setup complete.')
             end
@@ -71,20 +71,18 @@ return {
         continual = {
             description = "ami 'continual' sub command",
             summary = 'Controls tezpay continual service',
-            options = {
-                ["enable"] = {
+            commands = {
+                enable = {
                     description = "Enables the continual service.",
-                    type = "boolean"
                 },
-                ["disable"] = {
+                disable = {
                     description = "Disables the continual service.",
-                    type = "boolean"
                 },
-                ["status"] = {
+                status = {
                     description = "Prints the status of the continual service.",
-                    type = "boolean"
                 }
             },
+            type = "namespace",
             action = '__tezpay/continual.lua',
         },
         log = {
@@ -92,12 +90,12 @@ return {
             summary = 'Prints logs from services.',
             options = {
                 ["follow"] = {
-                    aliases = {"f"},
+                    aliases = { "f" },
                     description = "Keeps printing the log continuously.",
                     type = "boolean"
                 },
                 ["end"] = {
-                    aliases = {"e"},
+                    aliases = { "e" },
                     description = "Jumps to the end of the log.",
                     type = "boolean"
                 }
@@ -145,14 +143,14 @@ return {
             description = "ami 'about' sub command",
             summary = 'Prints information about application',
             action = function(_, _, _, _)
-                local ok, about_raw = fs.safe_read_file('__tezpay/about.hjson')
-                ami_assert(ok, 'Failed to read about file!', EXIT_APP_ABOUT_ERROR)
+                local about_raw, err = fs.read_file('__tezpay/about.hjson')
+                ami_assert(about_raw, 'failed to read about file - error: ' .. tostring(err), EXIT_APP_ABOUT_ERROR)
 
-                local ok, about = hjson.safe_parse(about_raw)
-                about['App Type'] = am.app.get({'type', 'id'}, am.app.get('type'))
-                ami_assert(ok, 'Failed to parse about file!', EXIT_APP_ABOUT_ERROR)
+                local about, err = hjson.parse(about_raw)
+                ami_assert(about, 'failed to parse about file - error: ' .. tostring(err), EXIT_APP_ABOUT_ERROR)
+                about['App Type'] = am.app.get({ 'type', 'id' }, am.app.get('type'))
                 if am.options.OUTPUT_FORMAT == 'json' then
-                    print(hjson.stringify_to_json(about, {indent = false, skipkeys = true}))
+                    print(hjson.stringify_to_json(about, { indent = false, skip_keys = true }))
                 else
                     print(hjson.stringify(about))
                 end
@@ -174,12 +172,12 @@ return {
             -- // TODO: remove just reports ??
             action = function(options, _, _, _)
                 if options.all then
-                    am.execute_extension('__tezpay/remove-all.lua', {context_fail_exit_code = EXIT_RM_ERROR})
-                    local constants = require"__tezpay/constants"
+                    am.execute_extension('__tezpay/remove-all.lua', { context_fail_exit_code = EXIT_RM_ERROR })
+                    local constants = require "__tezpay/constants"
                     am.app.remove(constants.protected_files)
                     log_success('Application removed.')
                 else
-                    log_warn"only whole tezpay ami instance can be removed and requires --all parameter"
+                    log_warn "only whole tezpay ami instance can be removed and requires --all parameter"
                 end
                 return
             end

@@ -1,0 +1,17 @@
+{
+    executable: {{{ROOT_DIR}}}/bin/tezpay
+    args: [
+        --path={{{ROOT_DIR}}}
+        continual
+        {{#configuration.STARTUP_ARGS}}
+        {{.}}
+        {{/configuration.STARTUP_ARGS}}
+    ]
+    environment: {
+        HOME: {{{ROOT_DIR}}}
+    }
+    working_directory: {{{ROOT_DIR}}}
+    restart: always
+    restart_delay: 1
+    user: {{{USER}}}
+}

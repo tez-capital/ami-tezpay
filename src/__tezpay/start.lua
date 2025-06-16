@@ -1,16 +1,6 @@
-local ok, systemctl = am.plugin.safe_get("systemctl")
-ami_assert(ok, "Failed to load systemctl plugin")
-local user = am.app.get("user", "root")
-systemctl = systemctl.with_options({ container = user })
+local service_manager = require"__xtz.service-manager"
+local services = require"__xtz.services"
 
-local services = require"__tezpay.services"
-
-for service in pairs(services.get_installed_services()) do
-	-- skip false values
-	if type(service) ~= "string" then goto CONTINUE end
-	local ok, err = systemctl.safe_start_service(service)
-	ami_assert(ok, "Failed to start " .. service .. ".service " .. (err or ""))
-	::CONTINUE::
-end
+service_manager.start_services(services.get_active_names())
 
 log_success("tezpay services succesfully started.")

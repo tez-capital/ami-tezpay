@@ -1,4 +1,4 @@
-local _, command = ...
+local _, command, _, cli_context = ...
 
 local services = require("__tezpay.services")
 local service_manager = require "__xtz.service-manager"
@@ -31,6 +31,11 @@ local actions = {
 		end
 	end
 }
+
+if not command or not command.id then
+	am.print_help(cli_context)
+	os.exit(1)
+end
 
 local action_id = command.id
 local action = actions[action_id]

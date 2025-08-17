@@ -48,4 +48,4 @@ jobs:
       commit-ref: ${{needs.build.outputs.commit-ref}}
     secrets:
       AIR_ACCESS_TOKEN: ${{ secrets.AIR_ACCESS_TOKEN }}
-      PB_DISCORD_WEBHOOK: ${{ secrets.PB_DISCORD_WEBHOOK }}
+      DISCORD_TZC_TEZPAY: ${{ secrets.DISCORD_TZC_TEZPAY }}

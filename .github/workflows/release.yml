@@ -12,7 +12,7 @@ on:
     secrets:
       AIR_ACCESS_TOKEN:
         required: true
-      PB_DISCORD_WEBHOOK:
+      DISCORD_TZC_TEZPAY:
         required: true
 
 jobs:
@@ -75,7 +75,7 @@ jobs:
       - name: Notify new version available
         uses: Ilshidur/action-discord@master
         env:
-          DISCORD_WEBHOOK: ${{ secrets.PB_DISCORD_WEBHOOK }}
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_TZC_TEZPAY }}
           VERSION: ${{steps.repository_info.outputs.VERSION}}
         with:
           args: "New ${{steps.repository_info.outputs.ID}} (ami package) **${{steps.repository_info.outputs.VERSION}}** released. (<https://github.com/tez-capital/ami-tezpay/releases/tag/${{steps.repository_info.outputs.VERSION}}>)"

@@ -18,7 +18,7 @@ local actions = {
 
 		if next(installed_services) then
 			service_manager.stop_services(installed_services)
-			service_manager.remove_services(services.installed_services)
+			service_manager.remove_services(installed_services)
 		end
 		log_info("continual service disabled")
 	end,

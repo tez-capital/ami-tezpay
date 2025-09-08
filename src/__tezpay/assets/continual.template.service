@@ -4,6 +4,9 @@ Wants=default.target
 StartLimitIntervalSec=0
 
 [Service]
+User={{{USER}}}
+Group={{{USER}}}
+
 Type=simple
 Restart=always
 RestartSec=20

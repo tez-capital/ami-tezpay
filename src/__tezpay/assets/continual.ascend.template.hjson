@@ -3,9 +3,9 @@
     args: [
         --path={{{ROOT_DIR}}}
         continual
-        {{#configuration.STARTUP_ARGS}}
+        {{#model.STARTUP_ARGS}}
         {{.}}
-        {{/configuration.STARTUP_ARGS}}
+        {{/model.STARTUP_ARGS}}
     ]
     environment: {
         HOME: {{{ROOT_DIR}}}

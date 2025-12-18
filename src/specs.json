@@ -1,5 +1,5 @@
 {
-    "version": "0.11.3+0.24.0",
+    "version": "0.11.4+0.24.1",
     "id": "tzc.tezpay",
     "dependencies": [
         {

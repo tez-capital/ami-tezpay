@@ -1,5 +1,3 @@
-local hjson = require "hjson"
-
 local version = os.getenv("VERSION")
 if not version then
 	os.exit(222)

@@ -3,22 +3,22 @@
 	darwin-arm64: {
 		tezpay: {
 			sha256: b7c44b919133f931b7af25e55a5f9003e668f325abe0a8386129a513800898c2
-			url: https://github.com/tez-capital/tezpay/releases/download/0.24.1/tezpay-macos-arm64
-			version: 0.24.1
+			url: https://github.com/tez-capital/tezpay/releases/download/0.24.4/tezpay-macos-arm64
+			version: 0.24.4
 		}
 	}
 	linux-arm64: {
 		tezpay: {
 			sha256: d27e0abd7d1c6319449ed6f377665304b3963908d423e44bc5a07156a70dee76
-			url: https://github.com/tez-capital/tezpay/releases/download/0.24.1/tezpay-linux-arm64
-			version: 0.24.1
+			url: https://github.com/tez-capital/tezpay/releases/download/0.24.4/tezpay-linux-arm64
+			version: 0.24.4
 		}
 	}
 	linux-x86_64: {
 		tezpay: {
 			sha256: ce794a305cbbffc34fcafe53182209cf5686d1d05a726f9affbe6337b14c8214
-			url: https://github.com/tez-capital/tezpay/releases/download/0.24.1/tezpay-linux-amd64
-			version: 0.24.1
+			url: https://github.com/tez-capital/tezpay/releases/download/0.24.4/tezpay-linux-amd64
+			version: 0.24.4
 		}
 	}
 }

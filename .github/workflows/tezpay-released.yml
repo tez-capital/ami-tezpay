@@ -28,7 +28,7 @@ jobs:
         id: push_changes
         uses: EndBug/add-and-commit@v9
         with:
-          add: '[ "src/__tezpay/constants.lua", "src/specs.json" ]'
+          add: '[ "src/__xtz/sources.hjson", "src/specs.json" ]'
           push: true
           message: updated-tezpay-version
           author_name: TezpayReleaseDispatch

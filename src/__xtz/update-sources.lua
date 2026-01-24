@@ -1,18 +1,26 @@
 -- tezpay SOURCE: https://github.com/tez-capital/tezpay/releases
 -- usage:
--- eli src/__xtz/update-sources.lua
+-- eli src/__xtz/update-sources.lua [version]
 
 local hjson = require "hjson"
 
+local static_version = arg[1]
 local http_options = nil
 
 --------------------------------------------------------------------------------
 -- GitHub Fetching Helper
 --------------------------------------------------------------------------------
 
-local function fetch_github_release(repo)
-	print("Fetching releases from " .. repo .. "...")
-	local url = "https://api.github.com/repos/" .. repo .. "/releases"
+local function fetch_github_release(repo, tag)
+	local url
+	if tag and tag ~= "" then
+		print("Fetching release " .. tag .. " from " .. repo .. "...")
+		url = "https://api.github.com/repos/" .. repo .. "/releases/tags/" .. tag
+	else
+		print("Fetching releases from " .. repo .. "...")
+		url = "https://api.github.com/repos/" .. repo .. "/releases"
+	end
+
 	local response = net.download_string(url, http_options)
 
 	if #response == 0 then
@@ -20,12 +28,24 @@ local function fetch_github_release(repo)
 		return nil
 	end
 
-	local releases = hjson.parse(response)
-	if not releases or #releases == 0 then
+	local data = hjson.parse(response)
+	if not data then
+		print("Failed to parse response from " .. repo)
 		return nil
 	end
 
-	return releases[1]
+	if tag and tag ~= "" then
+		if data.message == "Not Found" then
+			print("Release " .. tag .. " not found in " .. repo)
+			return nil
+		end
+		return data
+	else
+		if #data == 0 then
+			return nil
+		end
+		return data[1]
+	end
 end
 
 local function extract_asset(release, name_pattern)
@@ -50,7 +70,7 @@ end
 -- Fetch Releases
 --------------------------------------------------------------------------------
 
-local tezpay_release = fetch_github_release("tez-capital/tezpay")
+local tezpay_release = fetch_github_release("tez-capital/tezpay", static_version)
 if tezpay_release then
 	print("Found Tezpay release: " .. tezpay_release.tag_name)
 else

@@ -1,9 +1,9 @@
 {
-    "version": "0.12.5+0.24.4",
     "dependencies": [
         {
             "id": "xtz.base"
         }
     ],
-    "id": "tzc.tezpay"
+    "id": "tzc.tezpay",
+    "version": "0.12.6+0.25.0"
 }

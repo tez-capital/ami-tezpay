@@ -2,23 +2,23 @@
 {
 	darwin-arm64: {
 		tezpay: {
-			sha256: 11745cc40c3e2e6d83be15dfefd9be533123f798f41d139235125f232d8066b6
-			url: https://github.com/tez-capital/tezpay/releases/download/0.25.0/tezpay-macos-arm64
-			version: 0.25.0
+			sha256: 2f3c8c7bad3418914b86dea6f1513757dd8c58f69d3bcc4bfa3d8639b3324929
+			url: https://github.com/tez-capital/tezpay/releases/download/0.25.1/tezpay-macos-arm64
+			version: 0.25.1
 		}
 	}
 	linux-arm64: {
 		tezpay: {
-			sha256: 9abc836b7798bef14c0baff6951a92cf22c108b5f793773c90341b1076251454
-			url: https://github.com/tez-capital/tezpay/releases/download/0.25.0/tezpay-linux-arm64
-			version: 0.25.0
+			sha256: b93e067911608afdcf31de1a89f5febd1873b180970a97defe01e92ac9f3869c
+			url: https://github.com/tez-capital/tezpay/releases/download/0.25.1/tezpay-linux-arm64
+			version: 0.25.1
 		}
 	}
 	linux-x86_64: {
 		tezpay: {
-			sha256: a175276be533eeb951f57b605b977a270fae0904abfb3f9e6400ab4d94b718da
-			url: https://github.com/tez-capital/tezpay/releases/download/0.25.0/tezpay-linux-amd64
-			version: 0.25.0
+			sha256: 3f3be1c30c0062981500d8eb1c221d9eb9e09433248733db5fb0062c595a43d9
+			url: https://github.com/tez-capital/tezpay/releases/download/0.25.1/tezpay-linux-amd64
+			version: 0.25.1
 		}
 	}
 }
